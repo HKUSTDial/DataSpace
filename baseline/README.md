@@ -112,7 +112,7 @@ Run one task:
 ```bash
 .venv/bin/dataspace-baselines run \
   --harness codex \
-  --task-dir /path/to/DataAgentBenchmark/input/task_1 \
+  --task-dir /path/to/dataspace/input/task_1 \
   --config configs/harness.yaml \
   --run-dir /path/to/runs/codex/task_1/run_1
 ```
@@ -122,7 +122,7 @@ Run all tasks in the foreground:
 ```bash
 .venv/bin/dataspace-baselines batch \
   --harness codex \
-  --input-root /path/to/DataAgentBenchmark/input \
+  --input-root /path/to/dataspace/input \
   --config configs/harness.yaml \
   --run-root /path/to/runs/codex/run_1 \
   --concurrency 8
@@ -132,21 +132,23 @@ The unified launcher starts the batch command in tmux and closes the session
 automatically when it finishes:
 
 ```bash
-./scripts/run_benchmark.sh harness codex
-./scripts/run_benchmark.sh harness claude-code --resume
-./scripts/run_benchmark.sh harness smolagents --foreground
+./scripts/run_benchmark.sh harness codex \
+  --input-root /path/to/dataspace/input
+./scripts/run_benchmark.sh harness claude-code \
+  --input-root /path/to/dataspace/input --resume
+./scripts/run_benchmark.sh harness smolagents \
+  --input-root /path/to/dataspace/input --foreground
 ```
 
 `run_harness_benchmark.sh` remains as a compatibility wrapper around the same
 implementation.
 
-By default, the launcher discovers `DataAgentBenchmark/input` next to the
-repository and writes to
+The launcher requires an explicit `--input-root` and writes by default to
 `runs/harness-comparison/MODEL_KEY/HARNESS/workbench-1.0`, where `MODEL_KEY`
 comes from the selected config (and is `mimo-v2.5` in the checked-in default).
 This default intentionally separates unified-runtime results from historical
-pre-upgrade harness attempts. Explicit
-`--input-root` and `--run-root` arguments make it usable from another layout.
+pre-upgrade harness attempts. Use `--run-root` to select another output
+location.
 
 ### Fairness and isolation boundary
 
@@ -247,7 +249,7 @@ The existing single-task interface is unchanged:
 
 ```bash
 .venv/bin/dataspace-agent run \
-  --task-dir /path/to/DataAgentBenchmark/input/task_1 \
+  --task-dir /path/to/dataspace/input/task_1 \
   --config configs/vercel.yaml \
   --model mimo-v2.5 \
   --run-dir /path/to/runs/mimo-v2.5/task_1/run_1
@@ -257,13 +259,14 @@ The existing full-benchmark interface and launcher are also unchanged:
 
 ```bash
 .venv/bin/dataspace-agent batch \
-  --input-root /path/to/DataAgentBenchmark/input \
+  --input-root /path/to/dataspace/input \
   --config configs/vercel.yaml \
   --model mimo-v2.5 \
   --run-root /path/to/runs/mimo-v2.5/run_1 \
   --concurrency 8
 
-./scripts/run_benchmark.sh model mimo-v2.5 --resume
+./scripts/run_benchmark.sh model mimo-v2.5 \
+  --input-root /path/to/dataspace/input --resume
 ```
 
 The previous `run_full_benchmark.sh MODEL ...` command remains available as a

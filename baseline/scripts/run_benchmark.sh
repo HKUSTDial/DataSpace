@@ -14,7 +14,7 @@ Modes:
 
 Common options:
   --config PATH      Override the mode's default config
-  --input-root PATH  Benchmark input root
+  --input-root PATH  Benchmark input root (required)
   --run-root PATH    Explicit batch run root
   --concurrency N    Concurrent tasks
   --run-id ID        Derived run directory name (mode-specific default)
@@ -24,10 +24,10 @@ Common options:
   -h, --help         Show this help
 
 Examples:
-  ./scripts/run_benchmark.sh model grok-4.5 --resume
-  ./scripts/run_benchmark.sh model mimo-v2.5 --concurrency 4
-  ./scripts/run_benchmark.sh harness codex
-  ./scripts/run_benchmark.sh harness claude-code --resume
+  ./scripts/run_benchmark.sh model grok-4.5 \
+    --input-root /path/to/dataspace/input --resume
+  ./scripts/run_benchmark.sh harness codex \
+    --input-root /path/to/dataspace/input
 EOF
 }
 
@@ -36,7 +36,7 @@ mode_usage() {
     model)
       cat <<'EOF'
 Usage:
-  run_benchmark.sh model MODEL [options]
+  run_benchmark.sh model MODEL --input-root PATH [options]
 
 Runs the controlled DataSpace-Agent baseline with one model from
 configs/vercel.yaml. Concurrency defaults to 8.
@@ -45,7 +45,7 @@ EOF
     harness)
       cat <<'EOF'
 Usage:
-  run_benchmark.sh harness HARNESS [options]
+  run_benchmark.sh harness HARNESS --input-root PATH [options]
 
 Harnesses:
   dataspace-agent | smolagents | codex | claude-code | grok-build
@@ -60,7 +60,7 @@ EOF
 
 Options:
   --config PATH      Override the default config
-  --input-root PATH  Benchmark input root
+  --input-root PATH  Benchmark input root (required)
   --run-root PATH    Explicit batch run root
   --concurrency N    Concurrent tasks
   --run-id ID        Derived run directory name
@@ -118,7 +118,6 @@ fi
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 baseline_dir=$(cd -- "$script_dir/.." && pwd)
 repo_dir=$(cd -- "$baseline_dir/.." && pwd)
-workspace_dir=$(cd -- "$repo_dir/.." && pwd)
 source_dir="$baseline_dir/src"
 python_bin="$baseline_dir/.venv/bin/python"
 runner_bin="$baseline_dir/.venv/bin/dataspace-baselines"
@@ -130,7 +129,7 @@ else
   config_path="$baseline_dir/configs/harness.yaml"
   concurrency=
 fi
-input_root="$workspace_dir/DataAgentBenchmark/input"
+input_root=
 run_root=
 if [[ $mode == model ]]; then
   run_id=run_1
@@ -195,6 +194,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ -z $input_root ]]; then
+  echo "error: --input-root PATH is required" >&2
+  mode_usage "$mode" >&2
+  exit 2
+fi
 [[ $run_id =~ ^[A-Za-z0-9._-]+$ ]] || {
   echo "error: invalid run id: $run_id" >&2
   exit 2
@@ -215,6 +219,7 @@ fi
 }
 [[ -f $config_path ]] || { echo "error: config not found: $config_path" >&2; exit 1; }
 [[ -d $input_root ]] || { echo "error: benchmark input not found: $input_root" >&2; exit 1; }
+input_root=$(cd -- "$input_root" && pwd)
 
 if [[ $mode == model ]]; then
   resolved=$(
