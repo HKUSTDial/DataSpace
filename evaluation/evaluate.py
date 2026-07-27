@@ -672,19 +672,19 @@ def evaluate_task(
     )
 
 
-def discover_unexpected_prediction_tasks(
+def discover_unscored_prediction_tasks(
     prediction_root: Path,
-    expected_task_ids: set[str],
+    evaluated_task_ids: set[str],
 ) -> list[str]:
-    unexpected: list[str] = []
+    unscored: list[str] = []
     for path in prediction_root.iterdir():
         if (
             path.is_dir()
             and TASK_ID_PATTERN.fullmatch(path.name)
-            and path.name not in expected_task_ids
+            and path.name not in evaluated_task_ids
         ):
-            unexpected.append(path.name)
-    return sorted(unexpected, key=natural_task_key)
+            unscored.append(path.name)
+    return sorted(unscored, key=natural_task_key)
 
 
 def evaluate_suite(
@@ -701,7 +701,7 @@ def evaluate_suite(
         raise EvaluationFatalError(f"Missing gold root directory: {gold_root}")
 
     configs = load_configs(config_root)
-    all_expected_task_ids = {
+    evaluated_task_ids = {
         path.stem
         for path in config_root.glob("task_*.json")
         if TASK_ID_PATTERN.fullmatch(path.stem)
@@ -729,9 +729,9 @@ def evaluate_suite(
         "passed_task_count": passed_task_count,
         "failed_task_count": task_count - passed_task_count,
         "task_accuracy": passed_task_count / task_count if task_count else 0.0,
-        "unexpected_prediction_tasks": discover_unexpected_prediction_tasks(
+        "unscored_prediction_tasks": discover_unscored_prediction_tasks(
             prediction_root,
-            all_expected_task_ids,
+            evaluated_task_ids,
         ),
         "tasks": [result.to_dict() for result in results],
     }

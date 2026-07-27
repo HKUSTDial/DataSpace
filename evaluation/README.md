@@ -45,6 +45,14 @@ The official metric is **Task Accuracy**:
 Task Accuracy = correct tasks / evaluated tasks
 ```
 
+The evaluated task set is defined exactly by the `task_*.json` files under
+`--config-root`; neither the input directory nor additional prediction
+directories change the denominator. Thus, the public 60-reference config set
+produces a denominator of 60, while the private official 410-reference config
+set produces a denominator of 410. Predictions for task IDs outside the active
+config set are not scored and are listed as `unscored_prediction_tasks` in the
+summary.
+
 Each task receives a binary score. A task is correct only when one
 one-to-one prediction-to-gold column mapping makes the complete predicted
 table equal to the gold table under the task configuration.
