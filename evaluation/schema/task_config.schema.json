@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BugMaker-Boyan/DataSpace/main/evaluation/schema/task_config.schema.json",
+  "title": "DataSpace Task Evaluation Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "order_sensitive",
+    "columns"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^task_[1-9][0-9]*$"
+    },
+    "order_sensitive": {
+      "type": "boolean"
+    },
+    "columns": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/column"
+      }
+    }
+  },
+  "$defs": {
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gold_index",
+        "gold_name",
+        "type"
+      ],
+      "properties": {
+        "gold_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "gold_name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "text",
+            "number",
+            "date",
+            "datetime",
+            "boolean"
+          ]
+        },
+        "comparison": {
+          "$ref": "#/$defs/numberComparison"
+        },
+        "unit": {
+          "enum": [
+            "plain",
+            "percentage_points",
+            "fraction"
+          ]
+        },
+        "allow_percent_sign": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "number"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "comparison"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "comparison"
+                  ]
+                },
+                {
+                  "required": [
+                    "unit"
+                  ]
+                },
+                {
+                  "required": [
+                    "allow_percent_sign"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "numberComparison": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "mode": {
+              "const": "integer"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "digits"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "decimal_places",
+                "significant_digits"
+              ]
+            },
+            "digits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 30
+            }
+          }
+        }
+      ]
+    }
+  }
+}
