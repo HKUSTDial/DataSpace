@@ -1,0 +1,50 @@
+experiment:
+  # All harnesses in one comparison use this model. Change these fields, or
+  # copy this file and pass it with --config, to evaluate another backbone.
+  model:
+    key: mimo-v2.5
+    model: xiaomi/mimo-v2.5
+    api_key_env: AI_GATEWAY_API_KEY
+    openai_base_url: https://ai-gateway.vercel.sh/v1
+    anthropic_base_url: https://ai-gateway.vercel.sh
+    max_output_tokens: 32768
+    context_window: 262144
+  wall_time_seconds: 1800
+  concurrency: 8
+  workbench:
+    image: dataspace-workbench:1.0
+    rootfs_path: ../.runtimes/data-workbench-1.0/rootfs
+
+harnesses:
+  dataspace-agent:
+    enabled: true
+
+  smolagents:
+    enabled: true
+    image: dataspace-smolagents:1.0
+    version: 1.26.0
+
+  codex:
+    enabled: true
+    executable: /mnt/runtime/codex/bin/codex
+    version: 0.145.0
+    wire_api: responses
+    runtime_path: .runtimes/codex-{version}/platform-package/vendor/x86_64-unknown-linux-musl
+    runtime_mount: /mnt/runtime/codex
+
+  claude-code:
+    enabled: true
+    executable: /mnt/runtime/claude-code/bin/claude
+    version: 2.1.217
+    runtime_path: .runtimes/claude-code-{version}/runtime
+    runtime_mount: /mnt/runtime/claude-code
+
+  grok-build:
+    enabled: true
+    executable: /mnt/runtime/grok-build/bin/grok
+    version: 0.2.106
+    runtime_path: .runtimes/grok-build-{version}/.grok
+    runtime_mount: /mnt/runtime/grok-build
+    # Normalize only provider-specific finish labels at the transport layer.
+    api_backend: chat_completions
+    normalize_finish_reasons: true

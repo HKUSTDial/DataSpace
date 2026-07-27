@@ -1,0 +1,14 @@
+{
+  "runtime": "Data Workbench Runtime",
+  "version": "1.0",
+  "network": "offline",
+  "package_installation": false,
+  "modalities": {
+    "csv_json_markdown": ["python3", "pandas", "numpy", "pyarrow", "jq", "rg"],
+    "sqlite": ["sqlite3", "python3:sqlite3"],
+    "pdf": ["pdftotext", "pdfinfo", "pdftoppm", "fitz", "pypdf", "pdfplumber"],
+    "image_ocr": ["PIL", "cv2", "pytesseract", "tesseract:eng", "tesseract:chi_sim"],
+    "video": ["ffmpeg", "ffprobe", "cv2"]
+  },
+  "asr": false
+}
