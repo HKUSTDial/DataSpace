@@ -40,8 +40,14 @@ class EvaluatorCliTests(unittest.TestCase):
             prediction.mkdir(parents=True)
             gold.mkdir(parents=True)
             configs.mkdir()
+            unscored_prediction = root / "predictions" / "task_2"
+            unscored_prediction.mkdir()
             (prediction / "prediction.csv").write_text(
                 "answer\nA\n",
+                encoding="utf-8",
+            )
+            (unscored_prediction / "prediction.csv").write_text(
+                "answer\nB\n",
                 encoding="utf-8",
             )
             (gold / "gold.csv").write_text(
@@ -88,8 +94,11 @@ class EvaluatorCliTests(unittest.TestCase):
             self.assertEqual(completed.returncode, 0, completed.stderr)
             summary = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(summary["metric"], "task_accuracy")
+            self.assertEqual(summary["task_count"], 1)
             self.assertEqual(summary["passed_task_count"], 1)
             self.assertEqual(summary["task_accuracy"], 1.0)
+            self.assertEqual(summary["unscored_prediction_tasks"], ["task_2"])
+            self.assertNotIn("unexpected_prediction_tasks", summary)
 
 
 if __name__ == "__main__":
