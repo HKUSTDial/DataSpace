@@ -5,6 +5,9 @@
 ### Benchmarking Data Agents for Verifiable Analytics over Heterogeneous Workspaces
 
 <p>
+  <a href="https://arxiv.org/abs/2608.03451">
+    <img src="https://img.shields.io/badge/Paper-arXiv%3A2608.03451-B31B1B?logo=arxiv&logoColor=white" alt="DataSpace paper on arXiv">
+  </a>
   <a href="https://huggingface.co/datasets/HKUSTDial/DataSpace">
     <img src="https://img.shields.io/badge/Dataset-Hugging%20Face-FFD21E?logo=huggingface&logoColor=111" alt="Hugging Face dataset">
   </a>
@@ -16,7 +19,8 @@
   </a>
 </p>
 
-**[Dataset](https://huggingface.co/datasets/HKUSTDial/DataSpace) ·
+**[Paper](https://arxiv.org/abs/2608.03451) ·
+[Dataset](https://huggingface.co/datasets/HKUSTDial/DataSpace) ·
 [Evaluator](evaluation/) ·
 [Baselines](baseline/) ·
 [KDD Cup 2026](https://dataagent.top)**
@@ -32,6 +36,8 @@ evidence, then return the complete result as a verifiable table.
 
 DataSpace is also the official benchmark of the
 [KDD Cup 2026 Data Agent Track](https://dataagent.top).
+The accompanying paper is available on
+[arXiv](https://arxiv.org/abs/2608.03451).
 
 ## At a glance
 
@@ -162,15 +168,15 @@ The code and dataset are released under the [MIT License](LICENSE).
 ## Citation
 
 ```bibtex
-@misc{dataspace2027,
+@article{li2026dataspace,
   title        = {DataSpace: Benchmarking Data Agents for Verifiable Analytics
                   over Heterogeneous Workspaces},
   author       = {Boyan Li and Zhuowen Liang and Yupeng Xie and Xiaotian Lin and
                   Tianqi Luo and Xinyu Liu and Yizhang Zhu and Zhangyang Peng and
                   Yuan Li and Zhengxuan Zhang and Jiayi Zhang and Nan Tang and
                   Guoliang Li and Yuyu Luo},
-  year         = {2027},
-  howpublished = {Hugging Face dataset},
-  url          = {https://huggingface.co/datasets/HKUSTDial/DataSpace}
+  journal      = {arXiv preprint arXiv:2608.03451},
+  year         = {2026},
+  url          = {https://arxiv.org/abs/2608.03451}
 }
 ```

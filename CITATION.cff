@@ -1,0 +1,71 @@
+cff-version: 1.2.0
+message: "If you use DataSpace, please cite the accompanying paper."
+title: "DataSpace"
+type: software
+authors:
+  - family-names: Li
+    given-names: Boyan
+  - family-names: Liang
+    given-names: Zhuowen
+  - family-names: Xie
+    given-names: Yupeng
+  - family-names: Lin
+    given-names: Xiaotian
+  - family-names: Luo
+    given-names: Tianqi
+  - family-names: Liu
+    given-names: Xinyu
+  - family-names: Zhu
+    given-names: Yizhang
+  - family-names: Peng
+    given-names: Zhangyang
+  - family-names: Li
+    given-names: Yuan
+  - family-names: Zhang
+    given-names: Zhengxuan
+  - family-names: Zhang
+    given-names: Jiayi
+  - family-names: Tang
+    given-names: Nan
+  - family-names: Li
+    given-names: Guoliang
+  - family-names: Luo
+    given-names: Yuyu
+date-released: 2026-07-27
+license: MIT
+repository-code: "https://github.com/HKUSTDial/DataSpace"
+url: "https://dataspace-bench.github.io/"
+preferred-citation:
+  type: article
+  title: "DataSpace: Benchmarking Data Agents for Verifiable Analytics over Heterogeneous Workspaces"
+  authors:
+    - family-names: Li
+      given-names: Boyan
+    - family-names: Liang
+      given-names: Zhuowen
+    - family-names: Xie
+      given-names: Yupeng
+    - family-names: Lin
+      given-names: Xiaotian
+    - family-names: Luo
+      given-names: Tianqi
+    - family-names: Liu
+      given-names: Xinyu
+    - family-names: Zhu
+      given-names: Yizhang
+    - family-names: Peng
+      given-names: Zhangyang
+    - family-names: Li
+      given-names: Yuan
+    - family-names: Zhang
+      given-names: Zhengxuan
+    - family-names: Zhang
+      given-names: Jiayi
+    - family-names: Tang
+      given-names: Nan
+    - family-names: Li
+      given-names: Guoliang
+    - family-names: Luo
+      given-names: Yuyu
+  year: 2026
+  url: "https://arxiv.org/abs/2608.03451"
