@@ -11,6 +11,9 @@
   <a href="https://huggingface.co/datasets/HKUSTDial/DataSpace">
     <img src="https://img.shields.io/badge/Dataset-Hugging%20Face-FFD21E?logo=huggingface&logoColor=111" alt="Hugging Face dataset">
   </a>
+  <a href="https://dataspace-bench.github.io/">
+    <img src="https://img.shields.io/badge/Leaderboard-View%20Results-216D68" alt="DataSpace leaderboard">
+  </a>
   <a href="https://dataagent.top">
     <img src="https://img.shields.io/badge/KDD%20Cup%202026-Official%20Benchmark-8B5CF6" alt="KDD Cup 2026 official benchmark">
   </a>
@@ -21,6 +24,7 @@
 
 **[Paper](https://arxiv.org/abs/2608.03451) ·
 [Dataset](https://huggingface.co/datasets/HKUSTDial/DataSpace) ·
+[Leaderboard](https://dataspace-bench.github.io/) ·
 [Evaluator](evaluation/) ·
 [Baselines](baseline/) ·
 [KDD Cup 2026](https://dataagent.top)**
